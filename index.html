@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>과학 수업 자료실</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+<style>
+  /* ============================================================
+     과학 수업 자료실 — 통합 포털
+     색: 크림 베이스 + 교과별 색 코딩 + 사이언스 액센트
+     ============================================================ */
+  :root{
+    --cream:#FFFAEF;
+    --cream-2:#F6EEDD;
+    --ink:#2A2520;
+    --ink-soft:#5b5346;
+    --line:#E7DCC4;
+
+    --terracotta:#C25B3A;
+    --forest:#2E6B4F;
+    --mustard:#D99A2B;
+    --teal:#1FA9A0;
+    --violet:#6B4E9E;
+    --slate:#5A6B7B;
+
+    --shadow:0 10px 30px rgba(42,37,32,.10);
+    --shadow-lg:0 20px 50px rgba(42,37,32,.18);
+    --radius:18px;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Pretendard','Malgun Gothic',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.55;
+  }
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    padding:clamp(40px,8vw,90px) 20px clamp(34px,6vw,64px);
+    background:
+      radial-gradient(120% 140% at 12% -10%, rgba(31,169,160,.30), transparent 55%),
+      radial-gradient(120% 130% at 92% -20%, rgba(107,78,158,.28), transparent 55%),
+      radial-gradient(140% 120% at 50% 130%, rgba(217,154,43,.22), transparent 55%),
+      linear-gradient(160deg,#231f1a,#352c22 55%,#2b3a36);
+    color:#fff;
+    text-align:center;
+  }
+  .hero__particles{position:absolute;inset:0;pointer-events:none;}
+  .hero__particles circle{fill:rgba(255,255,255,.55);}
+  .hero__particles .ring{fill:none;stroke:rgba(255,255,255,.18);stroke-width:1;}
+  .orbit{transform-origin:center;animation:spin linear infinite;}
+  .orbit.a{animation-duration:34s;}
+  .orbit.b{animation-duration:52s;animation-direction:reverse;}
+  .orbit.c{animation-duration:70s;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .hero__inner{position:relative;max-width:980px;margin:0 auto;z-index:1;}
+  .eyebrow{
+    display:inline-block;letter-spacing:.32em;font-size:12px;font-weight:700;
+    color:var(--mustard);text-transform:uppercase;margin-bottom:14px;
+  }
+  .hero h1{
+    font-family:'Black Han Sans',sans-serif;
+    font-weight:400;
+    font-size:clamp(40px,9vw,84px);
+    line-height:1.02;
+    margin:0;
+    letter-spacing:-.01em;
+    text-shadow:0 4px 30px rgba(0,0,0,.35);
+  }
+  .hero h1 .glow{
+    background:linear-gradient(92deg,#7fe3da,#ffd27a 50%,#ff9d7a);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p{
+    margin:16px auto 0;max-width:560px;
+    color:rgba(255,255,255,.78);font-size:clamp(14px,2.2vw,17px);
+  }
+  .hero__stats{
+    margin-top:26px;display:inline-flex;gap:26px;flex-wrap:wrap;justify-content:center;
+    padding:12px 22px;border:1px solid rgba(255,255,255,.16);border-radius:999px;
+    background:rgba(255,255,255,.06);backdrop-filter:blur(6px);
+  }
+  .hero__stats .stat b{font-family:'Black Han Sans';font-size:20px;color:#fff;}
+  .hero__stats .stat span{font-size:12px;color:rgba(255,255,255,.7);margin-left:6px;}
+
+  .admin-btn{
+    position:absolute;top:18px;right:18px;z-index:3;
+    display:inline-flex;align-items:center;gap:7px;
+    padding:9px 15px;border-radius:999px;font-size:13px;font-weight:700;
+    border:1px solid rgba(255,255,255,.22);
+    background:rgba(255,255,255,.10);color:#fff;backdrop-filter:blur(6px);
+    transition:background .2s,transform .15s;
+  }
+  .admin-btn:hover{background:rgba(255,255,255,.2);transform:translateY(-1px);}
+  .admin-btn.on{background:var(--mustard);color:#231f1a;border-color:transparent;}
+
+  /* ---------- CONTROLS ---------- */
+  .wrap{max-width:1180px;margin:0 auto;padding:0 18px;}
+  .controls{
+    position:sticky;top:0;z-index:20;
+    margin-top:-28px;
+    background:rgba(255,250,239,.86);
+    backdrop-filter:blur(10px);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:16px 16px 14px;
+  }
+  .search{
+    display:flex;align-items:center;gap:10px;
+    background:#fff;border:1px solid var(--line);border-radius:12px;
+    padding:10px 14px;margin-bottom:14px;
+  }
+  .search svg{flex:0 0 auto;color:var(--ink-soft);}
+  .search input{
+    border:0;outline:0;background:transparent;width:100%;
+    font-size:15px;font-family:inherit;color:var(--ink);
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chips + .chips{margin-top:10px;}
+  .chips .label{
+    align-self:center;font-size:11px;font-weight:700;letter-spacing:.06em;
+    color:var(--ink-soft);margin-right:4px;text-transform:uppercase;
+  }
+  .chip{
+    border:1px solid var(--line);background:#fff;color:var(--ink-soft);
+    padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;
+    display:inline-flex;align-items:center;gap:7px;transition:all .16s;
+  }
+  .chip .dot{width:9px;height:9px;border-radius:50%;}
+  .chip:hover{border-color:var(--ink-soft);}
+  .chip.active{color:#fff;border-color:transparent;box-shadow:var(--shadow);}
+  .chip.active.subj{background:var(--c,var(--teal));}
+  .chip.active.type{background:var(--ink);}
+  .chip .count{font-size:11px;opacity:.65;}
+
+  /* ---------- SECTIONS / GRID ---------- */
+  main{padding:32px 0 80px;}
+  .section{margin-bottom:42px;}
+  .section__head{display:flex;align-items:center;gap:12px;margin:0 2px 16px;}
+  .section__bar{width:6px;height:26px;border-radius:6px;background:var(--c,var(--teal));}
+  .section__head h2{font-size:21px;font-weight:800;margin:0;letter-spacing:-.01em;}
+  .section__head .n{font-size:13px;color:var(--ink-soft);font-weight:600;
+    background:var(--cream-2);padding:3px 10px;border-radius:999px;}
+
+  .grid{
+    display:grid;gap:16px;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  }
+
+  .card{
+    position:relative;display:flex;flex-direction:column;
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 18px 16px;box-shadow:var(--shadow);
+    transition:transform .18s ease,box-shadow .18s ease,border-color .18s;
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:5px;
+    background:var(--c,var(--teal));
+  }
+  .card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:transparent;}
+  .card:focus-visible{outline:3px solid var(--c,var(--teal));outline-offset:2px;}
+  .card__top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:12px;}
+  .badge{
+    font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;
+    background:var(--cream-2);color:var(--ink-soft);white-space:nowrap;
+  }
+  .badge.type{color:#fff;}
+  .plat{
+    font-size:10px;font-weight:800;letter-spacing:.04em;
+    padding:4px 8px;border-radius:7px;border:1.5px solid currentColor;
+  }
+  .card h3{font-size:16px;font-weight:700;margin:0 0 auto;line-height:1.4;letter-spacing:-.01em;}
+  .card__foot{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-top:16px;padding-top:13px;border-top:1px solid var(--line);
+  }
+  .card__subj{font-size:12px;font-weight:700;color:var(--c,var(--teal));}
+  .card__open{font-size:12px;font-weight:700;color:var(--ink-soft);display:inline-flex;align-items:center;gap:4px;}
+  .card:hover .card__open{color:var(--c,var(--teal));}
+
+  /* admin controls on card */
+  .card__admin{display:none;position:absolute;top:10px;right:10px;gap:6px;z-index:2;}
+  body.admin .card__admin{display:flex;}
+  .icon-btn{
+    width:30px;height:30px;border-radius:9px;border:1px solid var(--line);
+    background:#fff;display:grid;place-items:center;color:var(--ink-soft);
+    box-shadow:var(--shadow);transition:all .15s;
+  }
+  .icon-btn:hover{color:var(--ink);border-color:var(--ink-soft);}
+  .icon-btn.del:hover{color:#fff;background:var(--terracotta);border-color:transparent;}
+
+  .add-card{
+    display:none;align-items:center;justify-content:center;gap:10px;
+    border:2px dashed var(--line);border-radius:var(--radius);
+    color:var(--ink-soft);font-weight:700;font-size:15px;min-height:150px;
+    background:transparent;transition:all .18s;
+  }
+  body.admin .add-card{display:flex;}
+  .add-card:hover{border-color:var(--teal);color:var(--teal);background:rgba(31,169,160,.05);}
+
+  .empty{text-align:center;color:var(--ink-soft);padding:70px 20px;}
+  .empty b{display:block;font-size:18px;color:var(--ink);margin-bottom:6px;}
+
+  /* ---------- MODAL ---------- */
+  .overlay{
+    position:fixed;inset:0;z-index:100;display:none;
+    background:rgba(35,31,26,.55);backdrop-filter:blur(3px);
+    align-items:center;justify-content:center;padding:18px;
+  }
+  .overlay.show{display:flex;}
+  .modal{
+    background:var(--cream);border-radius:22px;box-shadow:var(--shadow-lg);
+    width:100%;max-width:480px;max-height:92vh;overflow:auto;
+    border:1px solid var(--line);
+  }
+  .modal__head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:20px 22px;border-bottom:1px solid var(--line);
+    position:sticky;top:0;background:var(--cream);z-index:1;
+  }
+  .modal__head h3{margin:0;font-size:18px;font-weight:800;}
+  .modal__body{padding:20px 22px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:12px;font-weight:700;color:var(--ink-soft);
+    margin-bottom:6px;letter-spacing:.02em;}
+  .field input,.field select{
+    width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:11px;
+    background:#fff;font-size:15px;font-family:inherit;color:var(--ink);outline:0;
+  }
+  .field input:focus,.field select:focus{border-color:var(--teal);}
+  .field .hint{font-size:11px;color:var(--ink-soft);margin-top:5px;}
+  .btn{
+    width:100%;padding:13px;border:0;border-radius:12px;font-size:15px;font-weight:800;
+    background:var(--ink);color:#fff;transition:transform .15s,opacity .15s;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn.teal{background:var(--teal);}
+  .btn.ghost{background:transparent;color:var(--ink-soft);border:1px solid var(--line);}
+  .btn-row{display:flex;gap:10px;margin-top:6px;}
+  .btn-row .btn{width:auto;flex:1;}
+  .x{background:transparent;border:0;font-size:24px;color:var(--ink-soft);line-height:1;padding:4px;}
+
+  /* subject manager rows */
+  .subj-list{margin-top:8px;}
+  .subj-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);}
+  .subj-row .sw{width:14px;height:14px;border-radius:4px;flex:0 0 auto;}
+  .subj-row span{flex:1;font-weight:600;font-size:14px;}
+  .subj-row button{background:transparent;border:0;color:var(--terracotta);font-weight:700;font-size:13px;}
+  .add-subj{display:flex;gap:8px;margin-top:14px;}
+  .add-subj input{flex:1;}
+  .add-subj button{padding:0 16px;border-radius:11px;border:0;background:var(--forest);color:#fff;font-weight:700;}
+
+  /* ---------- TOAST / BANNER ---------- */
+  .toast{
+    position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;padding:13px 22px;border-radius:13px;
+    font-size:14px;font-weight:600;box-shadow:var(--shadow-lg);opacity:0;
+    transition:all .3s;z-index:200;pointer-events:none;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .banner{
+    background:#fff4e0;border-bottom:1px solid var(--mustard);
+    color:#7a5a12;font-size:13px;text-align:center;padding:9px 16px;font-weight:600;
+  }
+  .banner code{background:rgba(0,0,0,.06);padding:1px 6px;border-radius:5px;font-family:Consolas,monospace;}
+
+  @media (max-width:560px){
+    .hero__stats{gap:16px;}
+    .controls{margin-top:-22px;}
+    .grid{grid-template-columns:1fr;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .orbit{animation:none;}
+    *{transition:none!important;}
+  }
+</style>
+</head>
+<body>
+
+  <!-- 설정 안내 배너 (Firebase 미설정 시에만 노출) -->
+  <div class="banner" id="demoBanner" style="display:none">
+    데모 모드입니다 · 자료는 보기만 가능해요. 관리·자동저장을 켜려면 코드 상단 <code>firebaseConfig</code>에 키를 넣어주세요.
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <button class="admin-btn" id="adminBtn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg>
+      <span id="adminBtnText">관리자</span>
+    </button>
+
+    <svg class="hero__particles" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g class="orbit a" style="transform-box:fill-box">
+        <ellipse class="ring" cx="600" cy="210" rx="320" ry="120"/>
+        <circle cx="920" cy="210" r="5"/>
+      </g>
+      <g class="orbit b" style="transform-box:fill-box">
+        <ellipse class="ring" cx="600" cy="210" rx="200" ry="240"/>
+        <circle cx="600" cy="450" r="4"/>
+      </g>
+      <g class="orbit c" style="transform-box:fill-box">
+        <ellipse class="ring" cx="600" cy="210" rx="420" ry="170"/>
+        <circle cx="180" cy="210" r="4"/>
+      </g>
+      <circle cx="150" cy="90" r="2.5"/><circle cx="1050" cy="120" r="2"/>
+      <circle cx="300" cy="340" r="2"/><circle cx="980" cy="320" r="2.5"/>
+      <circle cx="600" cy="210" r="7" fill="#ffd27a"/>
+    </svg>
+
+    <div class="hero__inner">
+      <span class="eyebrow">Science Class Hub</span>
+      <h1>과학 수업 <span class="glow">자료실</span></h1>
+      <p>수업에서 만든 시뮬레이터·문제풀이·탐구 도구를 교과별로 한곳에 모았습니다.</p>
+      <div class="hero__stats">
+        <div class="stat"><b id="statApps">0</b><span>개 자료</span></div>
+        <div class="stat"><b id="statSubj">0</b><span>개 교과</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ CONTROLS ============ -->
+  <div class="wrap">
+    <div class="controls">
+      <div class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        <input id="searchInput" type="text" placeholder="개념·교과·앱 종류로 검색…" autocomplete="off">
+      </div>
+      <div class="chips" id="subjectChips"><span class="label">교과</span></div>
+      <div class="chips" id="typeChips"><span class="label">종류</span></div>
+    </div>
+  </div>
+
+  <!-- ============ CONTENT ============ -->
+  <main class="wrap"><div id="content"></div></main>
+
+  <!-- ============ MODALS ============ -->
+  <!-- 로그인 -->
+  <div class="overlay" id="loginOverlay">
+    <div class="modal">
+      <div class="modal__head"><h3>관리자 로그인</h3><button class="x" data-close>&times;</button></div>
+      <div class="modal__body">
+        <div class="field"><label>이메일</label><input id="loginEmail" type="email" placeholder="teacher@example.com"></div>
+        <div class="field"><label>비밀번호</label><input id="loginPw" type="password" placeholder="••••••••"></div>
+        <button class="btn teal" id="loginSubmit">로그인</button>
+        <p class="hint" style="margin-top:12px;text-align:center">계정은 Firebase 콘솔에서 만든 관리자 계정만 사용할 수 있어요.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 앱 추가/수정 -->
+  <div class="overlay" id="appOverlay">
+    <div class="modal">
+      <div class="modal__head"><h3 id="appModalTitle">앱 추가</h3><button class="x" data-close>&times;</button></div>
+      <div class="modal__body">
+        <div class="field"><label>개념 / 제목</label><input id="fTitle" placeholder="예: 중화 적정 시뮬레이터"></div>
+        <div class="field"><label>교과</label><select id="fSubject"></select></div>
+        <div class="field"><label>앱 종류</label>
+          <select id="fType">
+            <option>시뮬레이터</option><option>문제풀이앱</option><option>실험보고서</option>
+            <option>탐구관련</option><option>플랫폼</option>
+          </select>
+        </div>
+        <div class="field"><label>공유 플랫폼</label>
+          <select id="fPlatform"><option>깃허브</option><option>코드펜</option><option>구글앱스스크립트</option><option>기타</option></select>
+        </div>
+        <div class="field"><label>배포 링크</label>
+          <input id="fUrl" placeholder="https://…">
+          <div class="hint">학생이 카드를 누르면 이 주소가 새 탭으로 열려요.</div>
+        </div>
+        <div class="btn-row">
+          <button class="btn ghost" id="appDelete" style="display:none">삭제</button>
+          <button class="btn teal" id="appSave">저장</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 교과 관리 -->
+  <div class="overlay" id="subjOverlay">
+    <div class="modal">
+      <div class="modal__head"><h3>교과 관리</h3><button class="x" data-close>&times;</button></div>
+      <div class="modal__body">
+        <div class="subj-list" id="subjList"></div>
+        <div class="add-subj">
+          <input id="newSubj" placeholder="새 교과 이름 (예: 물리학)">
+          <button id="addSubjBtn">추가</button>
+        </div>
+        <p class="hint" style="margin-top:14px">교과 색상은 자동으로 배정됩니다. 자료가 연결된 교과는 삭제 전에 자료를 옮겨주세요.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<!-- ============================================================
+     SCRIPT
+     ============================================================ -->
+<script>
+/* ============================================================
+   ① FIREBASE 설정  ← 여기에 본인 키를 넣으세요
+   - 비워두면 '데모 모드'로 (보기 전용 + 기본 20개 표시) 동작합니다.
+   - 채우면: 모든 학생에게 공유 / 관리자만 추가·수정 가능.
+   ============================================================ */
+const firebaseConfig = {
+  apiKey:            "여기에-API-KEY",
+  authDomain:        "여기에-PROJECT.firebaseapp.com",
+  databaseURL:       "https://여기에-PROJECT-default-rtdb.firebaseio.com",
+  projectId:         "여기에-PROJECT",
+  storageBucket:     "여기에-PROJECT.appspot.com",
+  messagingSenderId: "여기에-SENDER-ID",
+  appId:             "여기에-APP-ID"
+};
+
+/* ============================================================
+   ② 교과별 색상 팔레트 (없는 교과는 아래 색을 순서대로 자동 배정)
+   ============================================================ */
+const SUBJECT_COLORS = {
+  "통합과학1":"#1FA9A0", "통합과학2":"#2E6B4F", "화학":"#C25B3A",
+  "고급화학":"#6B4E9E", "과학탐구실험1":"#D99A2B", "전교과":"#5A6B7B"
+};
+const COLOR_POOL = ["#1FA9A0","#C25B3A","#6B4E9E","#2E6B4F","#D99A2B","#5A6B7B","#3E7CB1","#B5446E"];
+
+const TYPE_COLORS = {
+  "시뮬레이터":"#1FA9A0","문제풀이앱":"#C25B3A","실험보고서":"#6B4E9E",
+  "탐구관련":"#D99A2B","플랫폼":"#5A6B7B"
+};
+const PLATFORM_GLYPH = { "깃허브":"GH","코드펜":"CP","구글앱스스크립트":"GAS","기타":"WEB" };
+
+/* 교과 표시 순서 (목록에 있으면 이 순서로, 없으면 뒤에) */
+const SUBJECT_ORDER = ["통합과학1","통합과학2","화학","고급화학","과학탐구실험1","전교과"];
+
+/* ============================================================
+   ③ 초기(시드) 자료 — DB가 비어있을 때 관리자가 한 번에 등록
+   ============================================================ */
+const SEED_APPS = [
+  {no:1, type:"문제풀이앱",subject:"통합과학1",platform:"깃허브",title:"이온결합물질과 공유결합물질의 성질",url:"https://ghkgkransgusdn.github.io/science-quiz/"},
+  {no:2, type:"시뮬레이터",subject:"통합과학1",platform:"코드펜",title:"이온결합물질과 공유결합물질의 성질",url:"https://codepen.io/zypimbkr-the-flexboxer/full/JoRmwzV"},
+  {no:3, type:"시뮬레이터",subject:"통합과학1",platform:"코드펜",title:"규산염 광물 모형 만들기",url:"https://codepen.io/zypimbkr-the-flexboxer/full/MYjzPeG"},
+  {no:4, type:"시뮬레이터",subject:"통합과학1",platform:"코드펜",title:"DNA 모형 만들기",url:"https://codepen.io/zypimbkr-the-flexboxer/full/raMoPPo"},
+  {no:5, type:"플랫폼",subject:"전교과",platform:"구글앱스스크립트",title:"모둠 활동 공유 플랫폼",url:"https://script.google.com/macros/s/AKfycbz0Nns2myVDRbiQAqkxqJlfMXSYpc30sI_TKL_FkacMJMliTuoFdB33RIlig7EuqWUtpw/exec"},
+  {no:6, type:"문제풀이앱",subject:"통합과학1",platform:"깃허브",title:"규산염 광물",url:"https://ghkgkransgusdn.github.io/science-quiz-Silicate-Minerals-/"},
+  {no:7, type:"시뮬레이터",subject:"통합과학1",platform:"코드펜",title:"규산염 광물의 결합 구조와 쪼개짐",url:"https://codepen.io/zypimbkr-the-flexboxer/full/JobdRNr"},
+  {no:8, type:"탐구관련",subject:"고급화학",platform:"코드펜",title:"볼타전지 개념 설명",url:"https://codepen.io/zypimbkr-the-flexboxer/full/KwNzOLE"},
+  {no:9, type:"시뮬레이터",subject:"화학",platform:"코드펜",title:"염화 코발트 평형",url:"https://codepen.io/hrxxtnzd-the-sans/full/wBoGLYo"},
+  {no:10,type:"시뮬레이터",subject:"화학",platform:"코드펜",title:"크로뮴산 평형",url:"https://codepen.io/hrxxtnzd-the-sans/full/raWeEbZ"},
+  {no:11,type:"실험보고서",subject:"과학탐구실험1",platform:"깃허브",title:"빅데이터를 활용하여 한반도의 기후 변화 경향성 파악하기",url:"https://ghkgkransgusdn.github.io/climate/"},
+  {no:12,type:"문제풀이앱",subject:"통합과학1",platform:"깃허브",title:"단백질, DNA",url:"https://ghkgkransgusdn.github.io/science-quiz-DNA/"},
+  {no:13,type:"탐구관련",subject:"고급화학",platform:"코드펜",title:"농도차 전지 개념 설명",url:"https://codepen.io/zypimbkr-the-flexboxer/full/azBmQVV"},
+  {no:14,type:"실험보고서",subject:"전교과",platform:"깃허브",title:"실험보고서 앱",url:"https://ghkgkransgusdn.github.io/snow-melter/"},
+  {no:15,type:"시뮬레이터",subject:"화학",platform:"코드펜",title:"시계 반응",url:"https://codepen.io/hrxxtnzd-the-sans/full/jEVyzBo"},
+  {no:16,type:"시뮬레이터",subject:"화학",platform:"코드펜",title:"NO₂-N₂O₄ 평형",url:"https://codepen.io/hrxxtnzd-the-sans/full/YPpZqdW"},
+  {no:18,type:"문제풀이앱",subject:"통합과학1",platform:"깃허브",title:"물질의 전기적 성질 문제풀이",url:"https://ghkgkransgusdn.github.io/electricity-quiz/"},
+  {no:19,type:"시뮬레이터",subject:"통합과학1",platform:"코드펜",title:"반도체(p형, n형)",url:"https://codepen.io/zypimbkr-the-flexboxer/full/raWpVMN"},
+  {no:20,type:"시뮬레이터",subject:"화학",platform:"코드펜",title:"중화 적정",url:"https://codepen.io/hrxxtnzd-the-sans/full/azBGBpX"},
+  {no:21,type:"시뮬레이터",subject:"통합과학2",platform:"깃허브",title:"구리와 산소의 산화 환원 반응",url:"https://ghkgkransgusdn.github.io/2026middle2/"}
+];
+
+/* ============================================================
+   ④ 상태 & 모드 판별
+   ============================================================ */
+const isConfigured = !firebaseConfig.apiKey.startsWith("여기에");
+let db=null, auth=null;
+const state = { apps:[], subjects:[], fSubject:"전체", fType:"전체", q:"", isAdmin:false, editId:null };
+
+const $ = s=>document.querySelector(s);
+const el = (t,c)=>{const e=document.createElement(t); if(c)e.className=c; return e;};
+const esc = s=>String(s||"").replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),2400);}
+
+function subjColor(name){
+  if(SUBJECT_COLORS[name]) return SUBJECT_COLORS[name];
+  const idx = state.subjects.findIndex(s=>s.name===name);
+  return COLOR_POOL[idx>=0? idx%COLOR_POOL.length : 0];
+}
+function orderedSubjects(){
+  const names = state.subjects.map(s=>s.name);
+  return [...names].sort((a,b)=>{
+    const ia=SUBJECT_ORDER.indexOf(a), ib=SUBJECT_ORDER.indexOf(b);
+    if(ia===-1&&ib===-1) return a.localeCompare(b,'ko');
+    if(ia===-1) return 1; if(ib===-1) return -1; return ia-ib;
+  });
+}
+
+/* ============================================================
+   ⑤ 렌더링
+   ============================================================ */
+function render(){
+  renderChips(); renderContent();
+  $("#statApps").textContent = state.apps.length;
+  $("#statSubj").textContent = orderedSubjects().length;
+}
+
+function renderChips(){
+  const subjWrap=$("#subjectChips"), typeWrap=$("#typeChips");
+  subjWrap.querySelectorAll(".chip").forEach(c=>c.remove());
+  typeWrap.querySelectorAll(".chip").forEach(c=>c.remove());
+
+  const subjects=["전체",...orderedSubjects()];
+  subjects.forEach(name=>{
+    const c=el("button","chip subj"+(state.fSubject===name?" active":""));
+    const cnt = name==="전체"?state.apps.length:state.apps.filter(a=>a.subject===name).length;
+    if(name!=="전체"){c.style.setProperty("--c",subjColor(name));
+      c.innerHTML=`<span class="dot" style="background:${subjColor(name)}"></span>${esc(name)} <span class="count">${cnt}</span>`;}
+    else c.innerHTML=`전체 <span class="count">${cnt}</span>`;
+    c.onclick=()=>{state.fSubject=name;render();};
+    subjWrap.appendChild(c);
+  });
+
+  const types=["전체",...Array.from(new Set(state.apps.map(a=>a.type)))];
+  types.forEach(t=>{
+    const c=el("button","chip type"+(state.fType===t?" active":""));
+    c.textContent=t;
+    c.onclick=()=>{state.fType=t;render();};
+    typeWrap.appendChild(c);
+  });
+}
+
+function filtered(){
+  const q=state.q.trim().toLowerCase();
+  return state.apps.filter(a=>{
+    if(state.fSubject!=="전체" && a.subject!==state.fSubject) return false;
+    if(state.fType!=="전체" && a.type!==state.fType) return false;
+    if(q){const hay=`${a.title} ${a.subject} ${a.type} ${a.platform}`.toLowerCase();
+      if(!hay.includes(q)) return false;}
+    return true;
+  });
+}
+
+function cardEl(a){
+  const c=el("a","card");
+  c.href=a.url||"#"; c.target="_blank"; c.rel="noopener";
+  c.style.setProperty("--c",subjColor(a.subject));
+  c.tabIndex=0;
+  c.innerHTML=`
+    <div class="card__admin">
+      <button class="icon-btn edit" title="수정"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+      <button class="icon-btn del" title="삭제"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button>
+    </div>
+    <div class="card__top">
+      <span class="badge type" style="background:${TYPE_COLORS[a.type]||'#5A6B7B'}">${esc(a.type)}</span>
+      <span class="plat" style="color:${subjColor(a.subject)}">${PLATFORM_GLYPH[a.platform]||'WEB'}</span>
+    </div>
+    <h3>${esc(a.title)}</h3>
+    <div class="card__foot">
+      <span class="card__subj">${esc(a.subject)}</span>
+      <span class="card__open">열기 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+    </div>`;
+  c.querySelector(".edit")?.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();openAppModal(a);});
+  c.querySelector(".del")?.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();deleteApp(a);});
+  return c;
+}
+
+function renderContent(){
+  const root=$("#content"); root.innerHTML="";
+  const list=filtered();
+
+  if(!list.length && !state.isAdmin){
+    const e=el("div","empty"); e.innerHTML="<b>표시할 자료가 없어요</b>검색어나 필터를 바꿔보세요.";
+    root.appendChild(e); return;
+  }
+
+  // 특정 교과 선택 또는 검색/종류 필터 → 평면 그리드
+  if(state.fSubject!=="전체" || state.fType!=="전체" || state.q.trim()){
+    const grid=el("div","grid");
+    list.forEach(a=>grid.appendChild(cardEl(a)));
+    if(state.isAdmin){const add=el("button","add-card");add.innerHTML="＋ 앱 추가";add.onclick=()=>openAppModal();grid.appendChild(add);}
+    root.appendChild(grid); return;
+  }
+
+  // 전체 → 교과별 섹션
+  orderedSubjects().forEach(subj=>{
+    const items=list.filter(a=>a.subject===subj);
+    if(!items.length && !state.isAdmin) return;
+    const sec=el("section","section");
+    const head=el("div","section__head");
+    head.innerHTML=`<span class="section__bar" style="background:${subjColor(subj)}"></span>
+      <h2>${esc(subj)}</h2><span class="n">${items.length}</span>`;
+    sec.appendChild(head);
+    const grid=el("div","grid");
+    items.forEach(a=>grid.appendChild(cardEl(a)));
+    if(state.isAdmin){const add=el("button","add-card");add.innerHTML="＋ 앱 추가";add.onclick=()=>openAppModal({subject:subj});grid.appendChild(add);}
+    sec.appendChild(grid); root.appendChild(sec);
+  });
+
+  if(state.isAdmin){
+    const bar=el("div","section");
+    bar.innerHTML=`<button class="btn ghost" id="manageSubjBtn" style="max-width:240px">＋ 교과 추가 / 관리</button>`;
+    root.appendChild(bar);
+    $("#manageSubjBtn").onclick=openSubjModal;
+  }
+}
+
+/* ============================================================
+   ⑥ 관리자: 앱 CRUD
+   ============================================================ */
+function fillSubjectSelect(sel){
+  const s=$("#fSubject"); s.innerHTML="";
+  orderedSubjects().forEach(n=>{const o=el("option");o.value=n;o.textContent=n;if(n===sel)o.selected=true;s.appendChild(o);});
+}
+function openAppModal(app){
+  if(!requireAdmin()) return;
+  state.editId = app && app.id ? app.id : null;
+  $("#appModalTitle").textContent = state.editId? "앱 수정":"앱 추가";
+  $("#fTitle").value = app?.title||"";
+  fillSubjectSelect(app?.subject);
+  $("#fType").value = app?.type||"시뮬레이터";
+  $("#fPlatform").value = app?.platform||"깃허브";
+  $("#fUrl").value = app?.url||"";
+  $("#appDelete").style.display = state.editId? "block":"none";
+  showOverlay("#appOverlay");
+}
+async function saveApp(){
+  const data={
+    title:$("#fTitle").value.trim(), subject:$("#fSubject").value,
+    type:$("#fType").value, platform:$("#fPlatform").value, url:$("#fUrl").value.trim()
+  };
+  if(!data.title){toast("제목을 입력해주세요");return;}
+  if(!data.url){toast("링크를 입력해주세요");return;}
+  try{
+    if(state.editId){ await db.ref("apps/"+state.editId).update(data); toast("수정했어요"); }
+    else { data.createdAt=Date.now(); await db.ref("apps").push(data); toast("추가했어요"); }
+    hideOverlay("#appOverlay");
+  }catch(e){toast("저장 실패: "+e.message);}
+}
+async function deleteApp(a){
+  if(!requireAdmin()) return;
+  if(!confirm(`'${a.title}' 자료를 삭제할까요?`)) return;
+  try{ await db.ref("apps/"+a.id).remove(); toast("삭제했어요"); }
+  catch(e){toast("삭제 실패: "+e.message);}
+}
+
+/* 교과 관리 */
+function openSubjModal(){ if(!requireAdmin())return; renderSubjList(); showOverlay("#subjOverlay"); }
+function renderSubjList(){
+  const wrap=$("#subjList"); wrap.innerHTML="";
+  orderedSubjects().forEach(name=>{
+    const cnt=state.apps.filter(a=>a.subject===name).length;
+    const row=el("div","subj-row");
+    row.innerHTML=`<span class="sw" style="background:${subjColor(name)}"></span><span>${esc(name)} · ${cnt}개</span>`;
+    const del=el("button"); del.textContent="삭제";
+    del.onclick=async()=>{
+      if(cnt>0){toast("연결된 자료를 먼저 옮겨주세요");return;}
+      const item=state.subjects.find(s=>s.name===name);
+      if(item){await db.ref("subjects/"+item.id).remove();renderSubjList();toast("교과를 삭제했어요");}
+    };
+    row.appendChild(del); wrap.appendChild(row);
+  });
+}
+async function addSubject(){
+  const name=$("#newSubj").value.trim();
+  if(!name){toast("교과 이름을 입력해주세요");return;}
+  if(state.subjects.some(s=>s.name===name)){toast("이미 있는 교과예요");return;}
+  await db.ref("subjects").push({name,createdAt:Date.now()});
+  $("#newSubj").value=""; renderSubjList(); toast("교과를 추가했어요");
+}
+
+/* 초기 20개 등록 */
+async function seedAll(){
+  if(!confirm("기본 자료 20개를 등록할까요? (한 번만 실행하세요)")) return;
+  const subjects=[...new Set(SEED_APPS.map(a=>a.subject))];
+  const updates={};
+  subjects.forEach(n=>{const k=db.ref("subjects").push().key;updates["subjects/"+k]={name:n,createdAt:Date.now()};});
+  SEED_APPS.forEach(a=>{const k=db.ref("apps").push().key;
+    updates["apps/"+k]={title:a.title,subject:a.subject,type:a.type,platform:a.platform,url:a.url,no:a.no,createdAt:Date.now()};});
+  try{await db.ref().update(updates);toast("기본 자료를 등록했어요");}
+  catch(e){toast("등록 실패: "+e.message);}
+}
+
+function requireAdmin(){ if(!state.isAdmin){toast("관리자만 사용할 수 있어요");return false;} return true; }
+
+/* ============================================================
+   ⑦ 오버레이 헬퍼
+   ============================================================ */
+function showOverlay(sel){$(sel).classList.add("show");}
+function hideOverlay(sel){$(sel).classList.remove("show");}
+document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>b.closest(".overlay").classList.remove("show"));
+document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{if(e.target===o)o.classList.remove("show");}));
+document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".overlay.show").forEach(o=>o.classList.remove("show"));});
+
+/* ============================================================
+   ⑧ 인증 & 관리자 버튼
+   ============================================================ */
+$("#adminBtn").onclick=()=>{
+  if(!isConfigured){toast("Firebase 설정 후 사용할 수 있어요");return;}
+  if(state.isAdmin){ auth.signOut(); }
+  else { showOverlay("#loginOverlay"); }
+};
+$("#loginSubmit").onclick=async()=>{
+  const email=$("#loginEmail").value.trim(), pw=$("#loginPw").value;
+  try{ await auth.signInWithEmailAndPassword(email,pw); hideOverlay("#loginOverlay"); $("#loginPw").value=""; }
+  catch(e){toast("로그인 실패: 계정을 확인해주세요");}
+};
+$("#appSave").onclick=saveApp;
+$("#appDelete").onclick=()=>{const a=state.apps.find(x=>x.id===state.editId);if(a)deleteApp(a);};
+$("#addSubjBtn").onclick=addSubject;
+$("#searchInput").addEventListener("input",e=>{state.q=e.target.value;render();});
+
+function setAdmin(on){
+  state.isAdmin=on;
+  document.body.classList.toggle("admin",on);
+  $("#adminBtn").classList.toggle("on",on);
+  $("#adminBtnText").textContent=on?"관리자 ✓ (로그아웃)":"관리자";
+  render();
+}
+
+/* ============================================================
+   ⑨ 초기화
+   ============================================================ */
+function bootDemo(){
+  // Firebase 미설정 → 시드 데이터 보기 전용
+  $("#demoBanner").style.display="block";
+  state.subjects = [...new Set(SEED_APPS.map(a=>a.subject))].map((n,i)=>({id:"d"+i,name:n}));
+  state.apps = SEED_APPS.map((a,i)=>({id:"d"+i,...a}));
+  render();
+}
+
+function bootFirebase(){
+  firebase.initializeApp(firebaseConfig);
+  db=firebase.database(); auth=firebase.auth();
+
+  auth.onAuthStateChanged(u=>setAdmin(!!u));
+
+  db.ref("subjects").on("value",snap=>{
+    const v=snap.val()||{};
+    state.subjects=Object.entries(v).map(([id,o])=>({id,name:o.name}));
+    render();
+  });
+  db.ref("apps").on("value",snap=>{
+    const v=snap.val()||{};
+    state.apps=Object.entries(v).map(([id,o])=>({id,...o}))
+      .sort((a,b)=>(a.no||9999)-(b.no||9999) || (a.createdAt||0)-(b.createdAt||0));
+    // DB가 비었고 관리자면 시드 버튼 안내
+    if(!state.apps.length && state.isAdmin){
+      setTimeout(()=>{ if(confirm("등록된 자료가 없어요. 기본 자료 20개를 지금 등록할까요?")) seedAll(); },300);
+    }
+    render();
+  });
+}
+
+if(isConfigured){
+  // Firebase compat SDK 로드 후 부팅
+  const load=(src)=>new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});
+  (async()=>{
+    try{
+      await load("https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js");
+      await load("https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js");
+      await load("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js");
+      bootFirebase();
+    }catch(e){ bootDemo(); toast("Firebase 로드 실패 — 데모 모드로 표시합니다"); }
+  })();
+}else{
+  bootDemo();
+}
+</script>
+</body>
+</html>
